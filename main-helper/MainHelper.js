@@ -1,7 +1,4 @@
 class MainHelper {
-   sayHello = () => {
-      console.log('hello');
-   };
    getRandomNumberFromTo = (min = 0, max = 9) => Math.floor(Math.random() * (max + 1 - min)) + min;
    getRandomElementFromGivenSet = set => set[this.getRandomNumberFromTo(0, set.length - 1)];
 
@@ -12,6 +9,40 @@ class MainHelper {
       let string = '';
       for (let i = 0; i < length; i++) string += this.getRandomEngLetterLower();
       return string;
+   };
+
+   //
+   solutionEfficiencyChecker = (solution1, solution2, testData) => {
+      const timeExecution = (solution, data) => {
+         const startTime = Date.now();
+         solution(data);
+         const finishTime = Date.now();
+         const time = finishTime - startTime;
+         return time;
+      };
+
+      const timeExecutionSolution1 = timeExecution(solution1, testData);
+      const timeExecutionSolution2 = timeExecution(solution2, testData);
+
+      console.log({ timeExecutionSolution1, timeExecutionSolution2 });
+
+      if (timeExecutionSolution1 < timeExecutionSolution2) {
+         console.log(`Solution 1 is more efficient`);
+         const lessEffective = Math.floor((timeExecutionSolution2 * 100) / timeExecutionSolution1);
+         console.log(`if solution 1 runtime is 100% then solution 2 runtime is ${lessEffective}%`);
+         const timesLessEffective = Math.floor(lessEffective / 10) / 10;
+         console.log(
+            `It means solution 1 is about ${timesLessEffective} times more efficient than solution 2`
+         );
+      } else {
+         console.log(`Solution 2 is more efficient`);
+         const lessEffective = Math.floor((timeExecutionSolution1 * 100) / timeExecutionSolution2);
+         console.log(`if solution 2 runtime is 100% then solution 1 runtime is ${lessEffective}%`);
+         const timesLessEffective = Math.floor(lessEffective / 10) / 10;
+         console.log(
+            `It means solution 2 is about ${timesLessEffective} times more efficient than solution 1`
+         );
+      }
    };
 
    //FOR COMMON TASKS
@@ -34,6 +65,22 @@ class MainHelper {
          length % 2 === 0
             ? leftPart + nonPair1 + nonPair2 + rightPart
             : leftPart + nonPair1 + this.getRandomEngLetterLower() + nonPair2 + rightPart;
+      return result;
+   };
+
+   generateValidPalindromeWithGivenLength = length => {
+      const lengthForGen = length % 2 === 0 ? length / 2 : (length - 1) / 2;
+      let leftPart = '';
+      let rightPart = '';
+      for (let i = 0; i < lengthForGen; i++) {
+         let newLetter = this.getRandomEngLetterLower();
+         leftPart += newLetter;
+         rightPart = newLetter + rightPart;
+      }
+      const result =
+         length % 2 === 0
+            ? leftPart + rightPart
+            : leftPart + this.getRandomEngLetterLower() + rightPart;
       return result;
    };
 
